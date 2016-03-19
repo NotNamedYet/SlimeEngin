@@ -1,7 +1,7 @@
-package com.slimeflow.slimeengine.commands;
+package com.slimeflow.slimeengin.commands;
 
-import com.slimeflow.slimeengine.SlimePlayer;
-import com.slimeflow.slimeengine.SlimePlayerManager;
+import com.slimeflow.slimeengin.SlimePlayer;
+import com.slimeflow.slimeengin.SlimePlayerManager;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;

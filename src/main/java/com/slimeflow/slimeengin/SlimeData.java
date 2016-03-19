@@ -1,4 +1,4 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
 import java.io.Serializable;
 import java.util.UUID;

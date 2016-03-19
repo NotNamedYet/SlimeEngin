@@ -1,16 +1,16 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
-import com.slimeflow.slimeengine.commands.DebugCommands;
-import com.slimeflow.slimeengine.deadpool.DeadPoolListener;
+import com.slimeflow.slimeengin.commands.DebugCommands;
+import com.slimeflow.slimeengin.deadpool.DeadPoolListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
-public class SlimeEngine extends JavaPlugin
+public class SlimeEngin extends JavaPlugin
 {
-    private static SlimeEngine m_instance;
+    private static SlimeEngin m_instance;
 
     private SlimePlayerManager m_slimePlayerManager;
 
@@ -58,7 +58,7 @@ public class SlimeEngine extends JavaPlugin
     ____
      */
 
-    public static SlimeEngine Main()
+    public static SlimeEngin Main()
     {
         return m_instance;
     }

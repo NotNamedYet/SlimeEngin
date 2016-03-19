@@ -1,6 +1,6 @@
-package com.slimeflow.slimeengine.deadpool;
+package com.slimeflow.slimeengin.deadpool;
 
-import com.slimeflow.slimeengine.SlimePlayer;
+import com.slimeflow.slimeengin.SlimePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;

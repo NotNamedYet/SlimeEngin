@@ -1,4 +1,4 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
 import java.util.Collection;
 import java.util.HashMap;

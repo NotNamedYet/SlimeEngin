@@ -1,4 +1,4 @@
-package com.slimeflow.slimeengine.deadpool;
+package com.slimeflow.slimeengin.deadpool;
 
 import org.bukkit.event.Event;
 import org.bukkit.event.HandlerList;

@@ -1,6 +1,6 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
-import com.slimeflow.slimeengine.deadpool.DeadPoolData;
+import com.slimeflow.slimeengin.deadpool.DeadPoolData;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -81,7 +81,7 @@ public final class SlimePlayer
      */
     public static SlimePlayerManager Manager()
     {
-        return SlimeEngine.getSlimeManager();
+        return SlimeEngin.getSlimeManager();
     }
 
 }

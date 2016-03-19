@@ -1,4 +1,4 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
