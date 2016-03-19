@@ -5,6 +5,8 @@ import org.bukkit.entity.Player;
 import java.util.UUID;
 
 /**
+ * Represent the Player 'extension' of the SlimeEngin system
+ * <br>
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
 public class SlimePlayer
@@ -27,11 +29,19 @@ public class SlimePlayer
         return m_uuid;
     }
 
+    /**
+     * Get the Original CraftBukkit Player interface
+     * @return Player
+     */
     public Player getOrigin()
     {
         return m_base;
     }
 
+    /**
+     * Load Data from DAO
+     * @param data Sql DAO
+     */
     public void loadData(SlimeData data)
     {
         //...
