@@ -54,6 +54,10 @@ public class SlimeEngine extends JavaPlugin
         manager.registerEvents(dpl, this);
     }
 
+    /* STATICS
+    ____
+     */
+
     public static SlimeEngine Main()
     {
         return m_instance;
