@@ -9,6 +9,7 @@ import java.util.UUID;
  */
 public final class SlimePlayerManager
 {
+
     private HashMap<UUID, SlimePlayer> m_PlayerCollection;
     private HashMap<String, UUID> m_NameCollection;
 
@@ -18,9 +19,14 @@ public final class SlimePlayerManager
         m_NameCollection = new HashMap<>(50);
     }
 
+    /**
+     * try to get a SlimePlayer if it exists in the collection, null if there is no mapping for this UUID
+     * @param id UUID of a player
+     * @return a SlimePlayer if it exists in the collection, null if there is no mapping for this UUID
+     */
     public SlimePlayer getSlime(UUID id)
     {
-        return m_PlayerCollection.getOrDefault(id, null);
+        return (m_PlayerCollection.containsKey(id))? m_PlayerCollection.get(id) : null;
     }
 
     /**
@@ -53,15 +59,26 @@ public final class SlimePlayerManager
         return retVal;
     }
 
+    /**
+     * Remove a name of the name's collection
+     * @param name String name of a player
+     */
     private void removeName(String name)
     {
         if(m_NameCollection.containsKey(name))
             m_NameCollection.remove(name);
     }
 
+    /**
+     * Add a name to name's collection
+     * @param player SlimePlayer instance
+     */
     private void addName(SlimePlayer player)
     {
-        m_NameCollection.putIfAbsent(player.getOrigin().getName(), player.getUniqueId());
+        if (m_NameCollection.containsKey(player.getOrigin().getName()))
+            return;
+
+        m_NameCollection.put(player.getOrigin().getName(), player.getUniqueId());
     }
 
     /**
@@ -81,14 +98,18 @@ public final class SlimePlayerManager
     }
 
     /**
-     * Get a safe collection of SlimePlayer
-     * @return Collecton<SlimePlayer>
+     * Get a collection of SlimePlayer
+     * @return Collection<SlimePlayer>
      */
     public Collection<SlimePlayer> getSlimePlayers()
     {
         return m_PlayerCollection.values();
     }
 
+    /**
+     * Get the SlimePlayer collection size
+     * @return the SlimePlayer collection size
+     */
     public int collectionSize()
     {
         return m_PlayerCollection.size();

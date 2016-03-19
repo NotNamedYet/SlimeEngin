@@ -1,6 +1,6 @@
 package com.slimeflow.slimeengin;
 
-import com.slimeflow.slimeengin.deadpool.DeadPoolData;
+import com.slimeflow.slimeengin.deadpool.DeadPool;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -12,6 +12,9 @@ import java.util.UUID;
  */
 public final class SlimePlayer
 {
+    //Statics
+    private static int onLineSlimes;
+
     //Base fields
     private final Player m_base;
     private final UUID m_uuid;
@@ -19,14 +22,13 @@ public final class SlimePlayer
 
     //BookKeeping
     private SlimeScore m_score;
-    private DeadPoolData m_deadPoolData;
+    private DeadPool m_deadPool;
 
     SlimePlayer(Player player)
     {
         m_base = player;
         m_uuid = player.getUniqueId();
         m_score = new SlimeScore();
-        m_deadPoolData = new DeadPoolData();
     }
 
     /**
@@ -48,32 +50,69 @@ public final class SlimePlayer
     }
 
     /**
+     * Is this player is Connected to the server ?
+     * @return false if offline;
+     */
+    public boolean isOnline()
+    {
+        return m_IsOnline;
+    }
+
+    /**
+     * Set the online state of this SlimePlayer
+     * @param value true for online, false for offline
+     */
+    void setOnline(boolean value)
+    {
+        m_IsOnline = value;
+
+        if(value)
+        {
+            onLineSlimes++;
+        }
+        else
+        {
+            onLineSlimes--;
+        }
+
+    }
+
+    /**
      * Load Data from DAO
      * @param data Sql DAO
      */
-    public void loadData(SlimeData data)
+    void loadData(SlimeData data)
     {
         //...
     }
 
-    /*
-        DEADPOOL
+    /**
+     * Update the DeadPool data of this SlimePlayer.
+     * If there is no DeadPool linked, try to get it back from the current DeadPoolTable,
+     * and if there is no entry in the table, a fresh one is created.
      */
+    public void updateDeadPool()
+    {
+        if (m_deadPool == null)
+            m_deadPool = SlimeEngin.deadPools().getEntryFor(this);
+    }
 
     /**
-     * True if this SlimePlayer has a DeadPool bounty on his head
+     * True if this SlimePlayer has a DeadPoolTable bounty on his head
      */
-    public boolean isOnDeadPool()
+    public boolean hasDeadPool()
     {
-        return m_deadPoolData.m_poolAmount > 0;
+        return m_deadPool.m_poolAmount > 0;
     }
 
-    public DeadPoolData getDeadPoolData()
+    /**
+     * get the DeadPoolTable data attached to this SlimePlayer
+     * @return DeadPool
+     */
+    public DeadPool getDeadPool()
     {
-        return m_deadPoolData;
+        return m_deadPool;
     }
-
-
 
     /**
      * Shortcut access to the SlimePlayer Manager
@@ -84,4 +123,12 @@ public final class SlimePlayer
         return SlimeEngin.getSlimeManager();
     }
 
+    /**
+     * Get the total number of online Slimes on this server
+     * @return total online Slime as Integer
+     */
+    public static int totalOnline()
+    {
+        return onLineSlimes;
+    }
 }

@@ -10,9 +10,9 @@ import java.util.UUID;
  */
 public class NewDeadPoolEvent extends Event {
 
-    private final DeadPoolData m_data;
+    private final DeadPool m_data;
 
-    public NewDeadPoolEvent(DeadPoolData data)
+    public NewDeadPoolEvent(DeadPool data)
     {
         m_data = data;
     }

@@ -7,6 +7,8 @@ import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
 
+import java.util.Collection;
+
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
@@ -20,13 +22,56 @@ public class DebugCommands implements CommandExecutor
 
             return true;
         }
-        else if (args[0].equalsIgnoreCase("slime"))
+        else if (args[0].equalsIgnoreCase("slime")) //Get SlimeManager infos
         {
             SlimePlayerManager man = SlimePlayer.Manager();
-
-            Bukkit.getLogger().info("- Connected Slimes : " + man.collectionSize());
+            Bukkit.getLogger().info("- Registered Slimes : " + man.collectionSize());
+        }
+        else if (args[0].equalsIgnoreCase("list"))
+        {
+            Collection<SlimePlayer> col = SlimePlayer.Manager().getSlimePlayers();
+            composeList(col, sender);
         }
 
         return false;
+    }
+
+    private void composeList(Collection<SlimePlayer> buffer, CommandSender sender)
+    {
+
+        int size = 0;
+        int index = 0;
+
+        sender.sendMessage(SlimePlayer.totalOnline() + " Slimes connected.");
+
+        StringBuilder stb = new StringBuilder();
+
+        for (SlimePlayer p : buffer)
+        {
+            if (p.isOnline())
+            {
+                stb.append(p.getOrigin().getName());
+
+                size++;
+                if (size < buffer.size()) stb.append(", ");
+
+                index++;
+
+                if (index >= 10)
+                {
+                    sender.sendMessage(stb.toString());
+                    stb = new StringBuilder();
+                    index = 0;
+                }
+            }
+        }
+
+        String result = stb.toString();
+
+        if (result.length() > 0)
+        {
+            sender.sendMessage(result);
+        }
+
     }
 }

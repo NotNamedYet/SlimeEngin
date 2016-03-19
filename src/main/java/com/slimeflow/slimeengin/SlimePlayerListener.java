@@ -13,12 +13,25 @@ public class SlimePlayerListener implements Listener
     @EventHandler
     void onPlayerLogin(PlayerLoginEvent evt)
     {
-        //TODO: REGISTER SLIMEPLAYER
+        SlimePlayer player = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
+
+        if (player == null)
+        {
+            player = new SlimePlayer(evt.getPlayer());
+            player.setOnline(true);
+            SlimePlayer.Manager().addSlime(player);
+        }
+
     }
 
     @EventHandler
     void onPlayerQuit(PlayerQuitEvent evt)
     {
+        SlimePlayer player = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
 
+        if (player != null)
+        {
+            player.setOnline(false);
+        }
     }
 }
