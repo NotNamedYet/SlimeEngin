@@ -39,7 +39,7 @@ public class SlimeEngine extends JavaPlugin
     @Override
     public void onDisable()
     {
-
+        m_slimePlayerManager.clear();
     }
 
     public static SlimeEngine Main()

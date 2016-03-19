@@ -23,6 +23,10 @@ public final class SlimePlayerManager
         return m_PlayerCollection.getOrDefault(id, null);
     }
 
+    /**
+     * Add A SlimeCraft to the Collection
+     * @param player SlimePlayer
+     */
     void addSlime(SlimePlayer player)
     {
         if (m_PlayerCollection.containsKey(player.getUniqueId()))
@@ -32,6 +36,11 @@ public final class SlimePlayerManager
         addName(player);
     }
 
+    /**
+     * Remove and return a SlimePlayer (if it exists, null otherwise) from the collection
+     * @param id UUID as key
+     * @return Removed SlimePlayer instance
+     */
     SlimePlayer removeSlime(UUID id)
     {
         SlimePlayer retVal = m_PlayerCollection.get(id);
@@ -55,6 +64,9 @@ public final class SlimePlayerManager
         m_NameCollection.putIfAbsent(player.getOrigin().getName(), player.getUniqueId());
     }
 
+    /**
+     * Fully re-Synchronize the name collection with the SlimePlayer Collection
+     */
     void synchronizeNames()
     {
         HashMap<String, UUID> m_buffer = new HashMap<>(m_PlayerCollection.size());
@@ -68,14 +80,23 @@ public final class SlimePlayerManager
         m_NameCollection.putAll(m_buffer);
     }
 
-    Collection<SlimePlayer> getSlimePlayers()
+    /**
+     * Get a safe collection of SlimePlayer
+     * @return Collecton<SlimePlayer>
+     */
+    public Collection<SlimePlayer> getSlimePlayers()
     {
         return m_PlayerCollection.values();
     }
 
+    public int collectionSize()
+    {
+        return m_PlayerCollection.size();
+    }
+
     void clear()
     {
-        //...
+        //TODO: ProperClean + save
     }
 
 }

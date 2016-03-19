@@ -12,14 +12,20 @@ import java.util.UUID;
  */
 public final class SlimePlayer
 {
+    //Base fields
     private final Player m_base;
     private final UUID m_uuid;
+    private boolean m_IsOnline;
+
+    //BookKeeping
+    private SlimeScore m_score;
     private DeadPoolData m_deadPoolData;
 
     SlimePlayer(Player player)
     {
         m_base = player;
         m_uuid = player.getUniqueId();
+        m_score = new SlimeScore();
         m_deadPoolData = new DeadPoolData();
     }
 
@@ -41,6 +47,22 @@ public final class SlimePlayer
         return m_base;
     }
 
+    /**
+     * Load Data from DAO
+     * @param data Sql DAO
+     */
+    public void loadData(SlimeData data)
+    {
+        //...
+    }
+
+    /*
+        DEADPOOL
+     */
+
+    /**
+     * True if this SlimePlayer has a DeadPool bounty on his head
+     */
     public boolean isOnDeadPool()
     {
         return m_deadPoolData.m_poolAmount > 0;
@@ -51,22 +73,7 @@ public final class SlimePlayer
         return m_deadPoolData;
     }
 
-    public double burnDeadPool()
-    {
-        double amount = m_deadPoolData.m_poolAmount;
-        m_deadPoolData.m_poolAmount = 0;
 
-        return amount;
-    }
-
-    /**
-     * Load Data from DAO
-     * @param data Sql DAO
-     */
-    public void loadData(SlimeData data)
-    {
-        //...
-    }
 
     /**
      * Shortcut access to the SlimePlayer Manager

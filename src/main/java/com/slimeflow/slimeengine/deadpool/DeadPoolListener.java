@@ -23,7 +23,7 @@ public class DeadPoolListener implements Listener
 
         if (sPlayer.isOnDeadPool())
         {
-            double amount = sPlayer.burnDeadPool();
+            double amount = sPlayer.getDeadPoolData().burn();
             evt.setDeathMessage("DeadPool reward for " + source.getDisplayName() + " goes to " + source.getKiller().getDisplayName());
             //TODO: Reward Killer...
         }
