@@ -1,5 +1,6 @@
 package com.slimeflow.slimeengine;
 
+import com.slimeflow.slimeengine.deadpool.DeadPoolData;
 import org.bukkit.entity.Player;
 
 import java.util.UUID;
@@ -9,15 +10,17 @@ import java.util.UUID;
  * <br>
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
-public class SlimePlayer
+public final class SlimePlayer
 {
     private final Player m_base;
     private final UUID m_uuid;
+    private DeadPoolData m_deadPoolData;
 
     SlimePlayer(Player player)
     {
         m_base = player;
         m_uuid = player.getUniqueId();
+        m_deadPoolData = new DeadPoolData();
     }
 
     /**
@@ -36,6 +39,24 @@ public class SlimePlayer
     public Player getOrigin()
     {
         return m_base;
+    }
+
+    public boolean isOnDeadPool()
+    {
+        return m_deadPoolData.m_poolAmount > 0;
+    }
+
+    public DeadPoolData getDeadPoolData()
+    {
+        return m_deadPoolData;
+    }
+
+    public double burnDeadPool()
+    {
+        double amount = m_deadPoolData.m_poolAmount;
+        m_deadPoolData.m_poolAmount = 0;
+
+        return amount;
     }
 
     /**

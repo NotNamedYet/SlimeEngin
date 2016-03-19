@@ -1,5 +1,6 @@
 package com.slimeflow.slimeengine;
 
+import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
 /**
@@ -23,7 +24,11 @@ public class SlimeEngine extends JavaPlugin
     @Override
     public void onEnable()
     {
+        PluginManager pMan = getServer().getPluginManager();
 
+        //SlimePlayerListener
+        SlimePlayerListener spl = new SlimePlayerListener();
+        pMan.registerEvents(spl, this);
     }
 
     @Override

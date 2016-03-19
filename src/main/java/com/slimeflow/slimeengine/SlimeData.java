@@ -1,13 +1,14 @@
 package com.slimeflow.slimeengine;
 
+import java.io.Serializable;
 import java.util.UUID;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
-public class SlimeData
+public final class SlimeData implements Serializable
 {
-    private UUID m_id;
+    public UUID m_id;
 
     public SlimeData(UUID id)
     {

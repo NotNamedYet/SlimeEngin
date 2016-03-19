@@ -1,12 +1,13 @@
 package com.slimeflow.slimeengine;
 
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.UUID;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
-public class SlimePlayerManager
+public final class SlimePlayerManager
 {
     private HashMap<UUID, SlimePlayer> m_PlayerCollection;
     private HashMap<String, UUID> m_NameCollection;
@@ -65,6 +66,11 @@ public class SlimePlayerManager
 
         m_NameCollection.clear();
         m_NameCollection.putAll(m_buffer);
+    }
+
+    Collection<SlimePlayer> getSlimePlayers()
+    {
+        return m_PlayerCollection.values();
     }
 
     void clear()
