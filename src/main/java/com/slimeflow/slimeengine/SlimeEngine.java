@@ -1,5 +1,6 @@
 package com.slimeflow.slimeengine;
 
+import com.slimeflow.slimeengine.commands.DebugCommands;
 import com.slimeflow.slimeengine.deadpool.DeadPoolListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -27,19 +28,30 @@ public class SlimeEngine extends JavaPlugin
     {
         PluginManager pMan = getServer().getPluginManager();
 
-        //SlimePlayerListener
-        SlimePlayerListener spl = new SlimePlayerListener();
-        pMan.registerEvents(spl, this);
-
-        //DeadPoolListener
-        DeadPoolListener dpl = new DeadPoolListener();
-        pMan.registerEvents(dpl, this);
+        registerListeners(pMan);
+        registerCommands();
     }
 
     @Override
     public void onDisable()
     {
         m_slimePlayerManager.clear();
+    }
+
+    private void registerCommands()
+    {
+        getCommand("debug").setExecutor(new DebugCommands());
+    }
+
+    private void registerListeners(PluginManager manager)
+    {
+        //SlimePlayerListener
+        SlimePlayerListener spl = new SlimePlayerListener();
+        manager.registerEvents(spl, this);
+
+        //DeadPoolListener
+        DeadPoolListener dpl = new DeadPoolListener();
+        manager.registerEvents(dpl, this);
     }
 
     public static SlimeEngine Main()

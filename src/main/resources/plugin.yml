@@ -1,0 +1,7 @@
+name: ${project.artifactId}
+main: com.slimeflow.slimeengin.SlimeEngin
+version: ${project.version}
+author: Slimeflow team
+commands:
+  debug:
+    description: Test command
