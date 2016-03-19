@@ -1,4 +1,4 @@
-package com.slimeflow.slimeengine;
+package com.slimeflow.slimeengin;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
