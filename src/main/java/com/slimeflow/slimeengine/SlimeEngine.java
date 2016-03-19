@@ -1,5 +1,6 @@
 package com.slimeflow.slimeengine;
 
+import com.slimeflow.slimeengine.deadpool.DeadPoolListener;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -29,6 +30,10 @@ public class SlimeEngine extends JavaPlugin
         //SlimePlayerListener
         SlimePlayerListener spl = new SlimePlayerListener();
         pMan.registerEvents(spl, this);
+
+        //DeadPoolListener
+        DeadPoolListener dpl = new DeadPoolListener();
+        pMan.registerEvents(dpl, this);
     }
 
     @Override
