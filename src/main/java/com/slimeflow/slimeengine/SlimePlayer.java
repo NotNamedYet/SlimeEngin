@@ -18,6 +18,10 @@ public class SlimePlayer
         m_uuid = player.getUniqueId();
     }
 
+    /**
+     * Get the unique java identifier of this crafter (should match with the default Bukkit Player UUID)
+     * @return UUID of this crafter
+     */
     public UUID getUniqueId()
     {
         return m_uuid;
@@ -32,4 +36,14 @@ public class SlimePlayer
     {
         //...
     }
+
+    /**
+     * Shortcut access to the SlimePlayer Manager
+     * @return SlimePlayerManager instance
+     */
+    public static SlimePlayerManager Manager()
+    {
+        return SlimeEngine.getSlimeManager();
+    }
+
 }

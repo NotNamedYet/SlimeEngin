@@ -11,11 +11,12 @@ public class SlimeEngine extends JavaPlugin
 
     private SlimePlayerManager m_slimePlayerManager;
 
-
     @Override
     public void onLoad()
     {
-        m_instance = this;
+        if (m_instance != this)
+            m_instance = this;
+
         m_slimePlayerManager = new SlimePlayerManager();
     }
 
@@ -40,4 +41,5 @@ public class SlimeEngine extends JavaPlugin
     {
         return m_instance.m_slimePlayerManager;
     }
+
 }
