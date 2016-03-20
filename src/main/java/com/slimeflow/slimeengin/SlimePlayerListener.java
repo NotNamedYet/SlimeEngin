@@ -13,7 +13,7 @@ public class SlimePlayerListener implements Listener
     @EventHandler
     void onPlayerLogin(PlayerLoginEvent evt)
     {
-        SlimePlayer player = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
+        SlimePlayer player = SlimePlayer.getSlimePlayer(evt.getPlayer().getUniqueId());
 
         if (player == null)
         {
@@ -27,7 +27,7 @@ public class SlimePlayerListener implements Listener
     @EventHandler
     void onPlayerQuit(PlayerQuitEvent evt)
     {
-        SlimePlayer player = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
+        SlimePlayer player = SlimePlayer.Manager().getSlimePlayer(evt.getPlayer().getUniqueId());
 
         if (player != null)
         {

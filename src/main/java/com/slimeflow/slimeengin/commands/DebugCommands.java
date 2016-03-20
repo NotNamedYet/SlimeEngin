@@ -8,10 +8,8 @@ import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.entity.Player;
 
 import java.util.Collection;
-import java.util.UUID;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
@@ -49,30 +47,6 @@ public class DebugCommands implements CommandExecutor
 
             return true;
         }
-        else if (args[0].equalsIgnoreCase("dpadd"))
-        {
-            if (sender instanceof Player)
-            {
-                SlimePlayer sPlayer = SlimePlayer.Manager().getSlime(((Player)sender).getUniqueId());
-
-                if (sPlayer != null)
-                {
-                    sPlayer.getDeadPool().add(25d);
-                }
-            }
-            return true;
-        }
-        else if (args[0].equalsIgnoreCase("dpfill"))
-        {
-            for (int i = 0; i < 25; i++)
-            {
-                DeadPool d = new DeadPool();
-                d.m_id = UUID.randomUUID();
-                d.m_actor = "Bot" + i;
-                d.m_poolAmount = Math.random();
-                SlimeEngin.deadPools().add(d);
-            }
-        }
 
         return false;
     }
@@ -91,7 +65,7 @@ public class DebugCommands implements CommandExecutor
         {
             if (p.isOnline())
             {
-                stb.append(p.getOrigin().getName());
+                stb.append(p.getBukkitPlayer().getName());
 
                 size++;
                 if (size < buffer.size()) stb.append(", ");

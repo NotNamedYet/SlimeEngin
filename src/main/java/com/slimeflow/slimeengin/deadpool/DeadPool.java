@@ -17,7 +17,7 @@ public class DeadPool implements Comparable<DeadPool>
     public DeadPool(SlimePlayer player)
     {
         m_id = player.getUniqueId();
-        m_actor = player.getOrigin().getDisplayName();
+        m_actor = player.getBukkitPlayer().getDisplayName();
         SlimeEngin.deadPools().add(this);
     }
 

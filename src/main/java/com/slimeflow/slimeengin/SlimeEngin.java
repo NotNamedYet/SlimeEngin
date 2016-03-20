@@ -3,6 +3,7 @@ package com.slimeflow.slimeengin;
 import com.slimeflow.slimeengin.commands.DebugCommands;
 import com.slimeflow.slimeengin.deadpool.DeadPoolListener;
 import com.slimeflow.slimeengin.deadpool.DeadPoolTable;
+import com.slimeflow.slimeengin.warper.Warper;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -12,9 +13,13 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SlimeEngin extends JavaPlugin
 {
     private static SlimeEngin m_instance;
-
     private SlimePlayerManager m_slimePlayerManager;
+
+    private Warper m_Warper;
+    private boolean m_WarperEnable = true;
+
     private DeadPoolTable m_deadPoolTable;
+    private boolean m_deadPoolEnable = true;
 
     @Override
     public void onLoad()
@@ -30,10 +35,12 @@ public class SlimeEngin extends JavaPlugin
     {
         PluginManager pMan = getServer().getPluginManager();
 
-        registerListeners(pMan);
-        registerCommands();
+        //REQUIRED MODULE
+        initSlimeManager(pMan);
 
-        m_deadPoolTable = new DeadPoolTable();
+        //OPTIONAL MODULE
+        initWarper(pMan);
+        initDeadPoolTable(pMan);
     }
 
     @Override
@@ -44,18 +51,47 @@ public class SlimeEngin extends JavaPlugin
 
     private void registerCommands()
     {
+
+    }
+
+    /* MODULES
+    ____
+     */
+
+    private void initSlimeManager(PluginManager pm)
+    {
+        getLogger().info("Enabling SlimeManager ...");
+        SlimePlayerListener spl = new SlimePlayerListener();
+        pm.registerEvents(spl, this);
         getCommand("debug").setExecutor(new DebugCommands());
     }
 
-    private void registerListeners(PluginManager manager)
+    private void initWarper(PluginManager pm)
     {
-        //SlimePlayerListener
-        SlimePlayerListener spl = new SlimePlayerListener();
-        manager.registerEvents(spl, this);
+        if (m_WarperEnable)
+        {
+            getLogger().info("Enabling Warper Module ...");
+            m_Warper = new Warper();
+        }
+        else
+        {
+            getLogger().info("Warper Module not enable.");
+        }
+    }
 
-        //DeadPoolListener
-        DeadPoolListener dpl = new DeadPoolListener();
-        manager.registerEvents(dpl, this);
+    private void initDeadPoolTable(PluginManager pm)
+    {
+        if (m_deadPoolEnable)
+        {
+            getLogger().info("Enabling DeadPool Module ...");
+            m_deadPoolTable = new DeadPoolTable();
+            DeadPoolListener dpl = new DeadPoolListener();
+            pm.registerEvents(dpl, this);
+        }
+        else
+        {
+            getLogger().info("DeadPool Module not enable.");
+        }
     }
 
     /* STATICS
@@ -72,6 +108,13 @@ public class SlimeEngin extends JavaPlugin
         return m_instance.m_slimePlayerManager;
     }
 
+    public static boolean isWarperEnable() {return m_instance.m_WarperEnable;}
+    public static Warper warper()
+    {
+        return m_instance.m_Warper;
+    }
+
+    public static boolean isDeadPoolEnable() {return m_instance.m_deadPoolEnable;}
     public static DeadPoolTable deadPools()
     {
         return m_instance.m_deadPoolTable;

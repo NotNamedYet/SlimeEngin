@@ -20,13 +20,42 @@ public final class SlimePlayerManager
     }
 
     /**
-     * try to get a SlimePlayer if it exists in the collection, null if there is no mapping for this UUID
-     * @param id UUID of a player
-     * @return a SlimePlayer if it exists in the collection, null if there is no mapping for this UUID
+     * <span style="color:red;">(recommended for best accuracy)</span>
+     * <br>
+     * Get a SlimePlayer by UUID if it exists during this session.
+     * null if there is no mapping for the given key.
+     *
+     * @param id get by UUID
+     * @return a SlimePlayer instance, or null if no mapping for this key.
      */
-    public SlimePlayer getSlime(UUID id)
+    public SlimePlayer getSlimePlayer(UUID id)
     {
         return (m_PlayerCollection.containsKey(id))? m_PlayerCollection.get(id) : null;
+    }
+
+    /**
+     * Get a SlimePlayer by name if it exists during this session.
+     * null if there is no mapping for the given key.
+     * <br>
+     * Getting by name require to check into two specific map,
+     * the name map first to get the UUID mapping key, then the main SlimePlayer collection. Those two maps are synchronized
+     * as mush as possible but keep in mind that a Minecraft username can be changed by the user.
+     * <br>
+     * <span style="color:red;">(Use this procedure only for
+     * gameplay's needs like economy, player ingame interaction etc...</span>
+     *
+     * @param name get by String name
+     * @return a SlimePlayer instance, or null if no mapping for this name.
+     */
+    public SlimePlayer getSlimePlayer(String name)
+    {
+        if (m_NameCollection.containsKey(name))
+        {
+            UUID id = m_NameCollection.get(name);
+            return getSlimePlayer(id);
+        }
+
+        return null;
     }
 
     /**
@@ -53,7 +82,7 @@ public final class SlimePlayerManager
 
         if(retVal != null)
         {
-            removeName(retVal.getOrigin().getName());
+            removeName(retVal.getBukkitPlayer().getName());
         }
 
         return retVal;
@@ -75,10 +104,10 @@ public final class SlimePlayerManager
      */
     private void addName(SlimePlayer player)
     {
-        if (m_NameCollection.containsKey(player.getOrigin().getName()))
+        if (m_NameCollection.containsKey(player.getBukkitPlayer().getName()))
             return;
 
-        m_NameCollection.put(player.getOrigin().getName(), player.getUniqueId());
+        m_NameCollection.put(player.getBukkitPlayer().getName(), player.getUniqueId());
     }
 
     /**
@@ -90,7 +119,7 @@ public final class SlimePlayerManager
 
         for (UUID id : m_PlayerCollection.keySet())
         {
-            m_buffer.put(m_PlayerCollection.get(id).getOrigin().getName(), id);
+            m_buffer.put(m_PlayerCollection.get(id).getBukkitPlayer().getName(), id);
         }
 
         m_NameCollection.clear();
