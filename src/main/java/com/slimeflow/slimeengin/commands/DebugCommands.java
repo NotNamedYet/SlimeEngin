@@ -65,7 +65,7 @@ public class DebugCommands implements CommandExecutor
         {
             if (p.isOnline())
             {
-                stb.append(p.getOrigin().getName());
+                stb.append(p.getBukkitPlayer().getName());
 
                 size++;
                 if (size < buffer.size()) stb.append(", ");
