@@ -8,7 +8,7 @@ import java.util.UUID;
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
  */
-public class DeadPool
+public class DeadPool implements Comparable<DeadPool>
 {
     public UUID m_id;
     public String m_actor;
@@ -48,5 +48,11 @@ public class DeadPool
     {
         //TODO: ADDDEADPOOL EVENT
         m_poolAmount += amount;
+    }
+
+    @Override
+    public int compareTo(DeadPool o)
+    {
+        return Double.compare(o.m_poolAmount, this.m_poolAmount);
     }
 }
