@@ -16,19 +16,21 @@ public final class SlimePlayer
     private static int onLineSlimes;
 
     //Base fields
-    private final Player m_base;
-    private final UUID m_uuid;
+    private final Player m_BukkitPlayer;
+    private final UUID m_Uuid;
     private boolean m_IsOnline;
 
     //BookKeeping
-    private SlimeScore m_score;
-    private DeadPool m_deadPool;
+    private SlimeSession m_Session;
+    private SlimeScore m_Score;
+    private DeadPool m_DeadPool;
 
     SlimePlayer(Player player)
     {
-        m_base = player;
-        m_uuid = player.getUniqueId();
-        m_score = new SlimeScore();
+        m_BukkitPlayer = player;
+        m_Uuid = player.getUniqueId();
+        m_Session = new SlimeSession(this);
+        m_Score = new SlimeScore();
     }
 
     /**
@@ -37,16 +39,16 @@ public final class SlimePlayer
      */
     public UUID getUniqueId()
     {
-        return m_uuid;
+        return m_Uuid;
     }
 
     /**
      * Get the Original CraftBukkit Player interface
      * @return Player
      */
-    public Player getOrigin()
+    public Player getBukkitPlayer()
     {
-        return m_base;
+        return m_BukkitPlayer;
     }
 
     /**
@@ -69,10 +71,12 @@ public final class SlimePlayer
         if(value)
         {
             onLineSlimes++;
+            m_Session.onLogin();
         }
         else
         {
             onLineSlimes--;
+            m_Session.onLogout();
         }
 
     }
@@ -87,14 +91,23 @@ public final class SlimePlayer
     }
 
     /**
+     * Get the session data of this SlimePlayer, containing connection data, time related data.
+     * @return the session data of this SlimePlayer
+     */
+    public SlimeSession getSession()
+    {
+        return m_Session;
+    }
+
+    /**
      * Update the DeadPool data of this SlimePlayer.
      * If there is no DeadPool linked, try to get it back from the current DeadPoolTable,
      * and if there is no entry in the table, a fresh one is created.
      */
     public void updateDeadPool()
     {
-        if (m_deadPool == null)
-            m_deadPool = SlimeEngin.deadPools().getEntryFor(this);
+        if (m_DeadPool == null)
+            m_DeadPool = SlimeEngin.deadPools().getEntryFor(this);
     }
 
     /**
@@ -102,7 +115,7 @@ public final class SlimePlayer
      */
     public boolean hasDeadPool()
     {
-        return m_deadPool.m_poolAmount > 0;
+        return m_DeadPool.m_poolAmount > 0;
     }
 
     /**
@@ -111,7 +124,16 @@ public final class SlimePlayer
      */
     public DeadPool getDeadPool()
     {
-        return m_deadPool;
+        return m_DeadPool;
+    }
+
+    /**
+     * Get the Score data attached to this SlimePlayer
+     * @return the Score data attached to this SlimePlayer
+     */
+    public SlimeScore getScore()
+    {
+        return m_Score;
     }
 
     /**
@@ -121,6 +143,39 @@ public final class SlimePlayer
     public static SlimePlayerManager Manager()
     {
         return SlimeEngin.getSlimeManager();
+    }
+
+    /**
+     * (recommended for best accuracy)
+     * <br>
+     * Delegate method. Static way to get a SlimePlayer by ID if it exists during this session.
+     * null if there is no mapping for the given key.
+     *
+     * @param id get by UUID
+     * @return a SlimePlayer instance, or null if no mapping for this key.
+     */
+    public static SlimePlayer getSlimePlayer(UUID id)
+    {
+        return Manager().getSlimePlayer(id);
+    }
+
+    /**
+     * Delegate method. Static way to get a SlimePlayer by name if it exists during this session.
+     * null if there is no mapping for the given key.
+     * <br>
+     * Getting by name require to check into two specific map,
+     * the name map first to get the UUID mapping key, then the main SlimePlayer collection. Those two maps are synchronized
+     * as mush as possible but keep in mind that a Minecraft username can be changed by the user.
+     * <br>
+     * Use this procedure only for
+     * gameplay's needs like economy, player ingame interaction etc...
+     *
+     * @param name get by String name
+     * @return a SlimePlayer instance, or null if no mapping for this name.
+     */
+    public static SlimePlayer getSlimePlayer(String name)
+    {
+        return Manager().getSlimePlayer(name);
     }
 
     /**

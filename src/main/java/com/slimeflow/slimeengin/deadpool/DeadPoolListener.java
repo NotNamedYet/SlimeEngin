@@ -15,7 +15,7 @@ public class DeadPoolListener implements Listener
     @EventHandler
     void onPlayerJoin(PlayerJoinEvent evt)
     {
-        SlimePlayer sp = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
+        SlimePlayer sp = SlimePlayer.Manager().getSlimePlayer(evt.getPlayer().getUniqueId());
 
         if (sp != null)
         {
@@ -27,7 +27,7 @@ public class DeadPoolListener implements Listener
     void onPlayerDeath(PlayerDeathEvent evt)
     {
         Player source = evt.getEntity();
-        SlimePlayer sPlayer = SlimePlayer.Manager().getSlime(source.getUniqueId());
+        SlimePlayer sPlayer = SlimePlayer.Manager().getSlimePlayer(source.getUniqueId());
 
         if(sPlayer == null)
             return;
