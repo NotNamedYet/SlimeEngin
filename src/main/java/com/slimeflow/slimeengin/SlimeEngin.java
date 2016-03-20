@@ -49,11 +49,6 @@ public class SlimeEngin extends JavaPlugin
         m_slimePlayerManager.clear();
     }
 
-    private void registerCommands()
-    {
-
-    }
-
     /* MODULES
     ____
      */
