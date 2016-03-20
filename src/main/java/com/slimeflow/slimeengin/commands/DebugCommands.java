@@ -1,7 +1,9 @@
 package com.slimeflow.slimeengin.commands;
 
+import com.slimeflow.slimeengin.SlimeEngin;
 import com.slimeflow.slimeengin.SlimePlayer;
 import com.slimeflow.slimeengin.SlimePlayerManager;
+import com.slimeflow.slimeengin.deadpool.DeadPool;
 import org.bukkit.Bukkit;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
@@ -26,11 +28,24 @@ public class DebugCommands implements CommandExecutor
         {
             SlimePlayerManager man = SlimePlayer.Manager();
             Bukkit.getLogger().info("- Registered Slimes : " + man.collectionSize());
+            return true;
         }
         else if (args[0].equalsIgnoreCase("list"))
         {
             Collection<SlimePlayer> col = SlimePlayer.Manager().getSlimePlayers();
             composeList(col, sender);
+            return true;
+        }
+        else if (args[0].equalsIgnoreCase("dp"))
+        {
+            sender.sendMessage("==DeadPools==");
+
+            for(DeadPool d : SlimeEngin.deadPools().getTopTen())
+            {
+                sender.sendMessage(String.format("- %s : %f", d.m_actor, d.m_poolAmount));
+            }
+
+            return true;
         }
 
         return false;
