@@ -2,8 +2,7 @@ package com.slimeflow.slimeengin.deadpool;
 
 import com.slimeflow.slimeengin.SlimePlayer;
 
-import java.util.HashMap;
-import java.util.UUID;
+import java.util.*;
 
 /**
  * Created by x9litch on 19/03/2016. - slimeflow.com
@@ -11,10 +10,13 @@ import java.util.UUID;
 public class DeadPoolTable
 {
     private HashMap<UUID, DeadPool> m_Pool;
+    private List<DeadPool> m_topTen;
+    private boolean obsoleteTopTen;
 
     public DeadPoolTable()
     {
         m_Pool = new HashMap<>();
+        m_topTen = new ArrayList<>(10);
     }
 
     public void add(DeadPool data)
@@ -23,6 +25,7 @@ public class DeadPoolTable
             return;
 
         m_Pool.put(data.m_id, data);
+        obsoleteTopTen = true;
     }
 
     /**
@@ -39,7 +42,27 @@ public class DeadPoolTable
 
         DeadPool created = new DeadPool(player);
         add(created);
+        obsoleteTopTen = true;
 
         return created;
     }
+
+    public List<DeadPool> getTopTen()
+    {
+        if (obsoleteTopTen)
+            updateTopTen();
+
+        return m_topTen;
+    }
+
+    private void updateTopTen()
+    {
+        List<DeadPool> buffer = new ArrayList<>(m_Pool.values());
+        Collections.sort(buffer);
+
+        m_topTen.clear();
+        m_topTen.addAll(buffer.subList(0, 10));
+        obsoleteTopTen = false;
+    }
+
 }

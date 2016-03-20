@@ -12,8 +12,8 @@ import org.bukkit.event.player.PlayerJoinEvent;
  */
 public class DeadPoolListener implements Listener
 {
-
-    void onplayerJoin(PlayerJoinEvent evt)
+    @EventHandler
+    void onPlayerJoin(PlayerJoinEvent evt)
     {
         SlimePlayer sp = SlimePlayer.Manager().getSlime(evt.getPlayer().getUniqueId());
 
