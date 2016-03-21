@@ -5,7 +5,18 @@ package com.slimeflow.slimeengin;
  */
 public class SlimeScore
 {
+    private SlimePlayer m_Player;
     private long m_blockBreacked;
     private long m_blockPlaced;
     private int m_deathCounter;
+
+    public SlimeScore(SlimePlayer player)
+    {
+        m_Player = player;
+    }
+
+    public void saveScore()
+    {
+        //TODO: SEND ENTRY
+    }
 }

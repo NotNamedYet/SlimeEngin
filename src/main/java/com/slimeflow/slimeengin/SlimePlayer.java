@@ -30,7 +30,7 @@ public final class SlimePlayer
         m_BukkitPlayer = player;
         m_Uuid = player.getUniqueId();
         m_Session = new SlimeSession(this);
-        m_Score = new SlimeScore();
+        m_Score = new SlimeScore(this);
     }
 
     /**
@@ -82,15 +82,6 @@ public final class SlimePlayer
     }
 
     /**
-     * Load Data from DAO
-     * @param data Sql DAO
-     */
-    void loadData(SlimeData data)
-    {
-        //...
-    }
-
-    /**
      * Get the session data of this SlimePlayer, containing connection data, time related data.
      * @return the session data of this SlimePlayer
      */
@@ -107,7 +98,7 @@ public final class SlimePlayer
     public void updateDeadPool()
     {
         if (m_DeadPool == null)
-            m_DeadPool = SlimeEngin.deadPools().getEntryFor(this);
+            m_DeadPool = SlimeEngin.getDeadPools().getEntryFor(this);
     }
 
     /**
@@ -135,6 +126,8 @@ public final class SlimePlayer
     {
         return m_Score;
     }
+
+    //region -> Statics
 
     /**
      * Shortcut access to the SlimePlayer Manager
@@ -186,4 +179,6 @@ public final class SlimePlayer
     {
         return onLineSlimes;
     }
+
+    //endregion
 }

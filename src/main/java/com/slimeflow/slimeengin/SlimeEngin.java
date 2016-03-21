@@ -1,6 +1,7 @@
 package com.slimeflow.slimeengin;
 
 import com.slimeflow.slimeengin.commands.DebugCommands;
+import com.slimeflow.slimeengin.database.ICommitter;
 import com.slimeflow.slimeengin.deadpool.DeadPoolListener;
 import com.slimeflow.slimeengin.deadpool.DeadPoolTable;
 import com.slimeflow.slimeengin.warper.Warper;
@@ -13,11 +14,11 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class SlimeEngin extends JavaPlugin
 {
     private static SlimeEngin m_instance;
-    private SlimePlayerManager m_slimePlayerManager;
 
+    private SqlCommitter m_Committer;
+    private SlimePlayerManager m_slimePlayerManager;
     private Warper m_Warper;
     private boolean m_WarperEnable = true;
-
     private DeadPoolTable m_deadPoolTable;
     private boolean m_deadPoolEnable = true;
 
@@ -26,6 +27,9 @@ public class SlimeEngin extends JavaPlugin
     {
         if (m_instance != this)
             m_instance = this;
+
+        m_Committer = new SqlCommitter();
+        m_Committer.start();
 
         m_slimePlayerManager = new SlimePlayerManager();
     }
@@ -49,9 +53,7 @@ public class SlimeEngin extends JavaPlugin
         m_slimePlayerManager.clear();
     }
 
-    /* MODULES
-    ____
-     */
+    //region -> Init methods
 
     private void initSlimeManager(PluginManager pm)
     {
@@ -89,13 +91,18 @@ public class SlimeEngin extends JavaPlugin
         }
     }
 
-    /* STATICS
-    ____
-     */
+    //endregion
+
+    //region -> Static accesses
 
     public static SlimeEngin Main()
     {
         return m_instance;
+    }
+
+    public static ICommitter getCommitter()
+    {
+        return m_instance.m_Committer;
     }
 
     public static SlimePlayerManager getSlimeManager()
@@ -103,15 +110,25 @@ public class SlimeEngin extends JavaPlugin
         return m_instance.m_slimePlayerManager;
     }
 
-    public static boolean isWarperEnable() {return m_instance.m_WarperEnable;}
-    public static Warper warper()
+    public static Warper getWarper()
     {
         return m_instance.m_Warper;
     }
 
-    public static boolean isDeadPoolEnable() {return m_instance.m_deadPoolEnable;}
-    public static DeadPoolTable deadPools()
+    public static boolean isWarperEnable()
+    {
+        return m_instance.m_WarperEnable;
+    }
+
+    public static DeadPoolTable getDeadPools()
     {
         return m_instance.m_deadPoolTable;
     }
+
+    public static boolean isDeadPoolEnable()
+    {
+        return m_instance.m_deadPoolEnable;
+    }
+
+    //endregion
 }

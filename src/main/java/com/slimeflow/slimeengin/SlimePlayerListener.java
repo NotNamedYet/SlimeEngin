@@ -1,7 +1,9 @@
 package com.slimeflow.slimeengin;
 
+import org.bukkit.Bukkit;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
+import org.bukkit.event.player.AsyncPlayerPreLoginEvent;
 import org.bukkit.event.player.PlayerLoginEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 
@@ -10,6 +12,13 @@ import org.bukkit.event.player.PlayerQuitEvent;
  */
 public class SlimePlayerListener implements Listener
 {
+
+    @EventHandler
+    void onPlayerPreLogin(AsyncPlayerPreLoginEvent evt)
+    {
+        Bukkit.getLogger().info(evt.getUniqueId().toString());
+    }
+
     @EventHandler
     void onPlayerLogin(PlayerLoginEvent evt)
     {

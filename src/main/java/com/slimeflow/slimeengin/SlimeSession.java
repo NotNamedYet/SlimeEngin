@@ -90,6 +90,12 @@ public class SlimeSession
         updateTimePlayed();
         m_LastLogoutTime = new Date().getTime();
         m_LastVisitedServer = Bukkit.getServer().getServerName();
+        saveSession();
+    }
+
+    public void saveSession()
+    {
+        //TODO: session entry
     }
 
 }
