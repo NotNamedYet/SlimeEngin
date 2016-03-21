@@ -40,7 +40,7 @@ public class DebugCommands implements CommandExecutor
         {
             sender.sendMessage("==DeadPools==");
 
-            for(DeadPool d : SlimeEngin.deadPools().getTopTen())
+            for(DeadPool d : SlimeEngin.getDeadPools().getTopTen())
             {
                 sender.sendMessage(String.format("- %s : %f", d.m_actor, d.m_poolAmount));
             }

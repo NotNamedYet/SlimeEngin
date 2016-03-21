@@ -18,9 +18,4 @@ public class Vector3 implements Serializable
         this.z = z;
     }
 
-    public double[] toArray()
-    {
-        return new double[]{x, y , z};
-    }
-
 }
